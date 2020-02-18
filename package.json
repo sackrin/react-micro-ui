@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^3.21.2",
+    "lodash": "^4.17.15",
     "nodemon": "^2.0.2",
     "nps-utils": "^1.7.0",
     "prettier": "^1.19.1",
