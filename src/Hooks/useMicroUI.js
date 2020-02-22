@@ -37,8 +37,8 @@ function useMicroUI(baseUrl, libraryName) {
   // Use the micro UI's exported render helper to render the actual component
   const renderComponent = useCallback(
     (ref, name, props) => {
-      if (window[libraryName] && window[libraryName].render) {
-        window[libraryName].render(ref, name, props);
+      if (window[libraryName] && window[libraryName].default.render) {
+        window[libraryName].default.render(ref, name, props);
       }
     },
     [libraryLoaded],
@@ -47,7 +47,7 @@ function useMicroUI(baseUrl, libraryName) {
   // This has to happen in order to allow for the micro UI to load all assets within the manifest
   useEffect(() => {
     // If the library has already been detected as loaded and has environment vars
-    if (window[libraryName] && window[`${libraryName}Environment`]) {
+    if (window[libraryName] && window[`__MicroUI${libraryName}AssetURL__`]) {
       setLibraryLoaded(true);
     }
     // Setup the listener against the window event space AND return a cleanup event remover
