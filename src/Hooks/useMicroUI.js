@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { useState, useCallback, useEffect } from 'react';
 
 /*
@@ -9,7 +8,7 @@ import { useState, useCallback, useEffect } from 'react';
   @param libraryName = the UMD library name
   @param options = various helper options containing theme etc
  */
-function useMicroUI(baseUrl, libraryName, options) {
+function useMicroUI(baseUrl, libraryName) {
   const [libraryLoaded, setLibraryLoaded] = useState(0);
   const [bootstrapLoaded, setBootstrapLoaded] = useState(false);
   const [bootstrapError, setBootstrapError] = useState(false);
@@ -38,8 +37,8 @@ function useMicroUI(baseUrl, libraryName, options) {
   // Use the micro UI's exported render helper to render the actual component
   const renderComponent = useCallback(
     (ref, name, props) => {
-      if (window[libraryName] && window[libraryName].renderComponent) {
-        window[libraryName].renderComponent(ref, name, props, _.get(options, 'theme'));
+      if (window[libraryName] && window[libraryName].render) {
+        window[libraryName].render(ref, name, props);
       }
     },
     [libraryLoaded],

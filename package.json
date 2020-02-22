@@ -29,9 +29,9 @@
     "nodemon": "^2.0.2",
     "nps-utils": "^1.7.0",
     "prettier": "^1.19.1",
+    "regenerator-runtime": "^0.13.3",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "regenerator-runtime": "^0.13.3"
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "babel-loader": "^8.0.6",
