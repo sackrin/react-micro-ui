@@ -65,7 +65,7 @@ function useMicroUI(baseUrl, libraryName) {
   // If the library is loaded then return the render helper, the various loaded flags and the library itself
   // Otherwise return all nulls and falses
   return libraryLoaded
-    ? [renderComponent, setLibraryLoaded, setBootstrapLoaded, setBootstrapError, window[libraryName]]
+    ? [renderComponent, libraryLoaded, setBootstrapLoaded, setBootstrapError, window[libraryName]]
     : [null, false, false, false, null];
 }
 
