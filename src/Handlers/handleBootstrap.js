@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const handleBootstrap = ({ name, url, target, apiPath, manifest }) => async (req, res) => {
+const handleBootstrap = ({ name, apiUrl, assetUrl, target, apiPath, manifest, environments }) => async (req, res) => {
   // Retrieve the manifest file contents
   let manifestData = fs.readFileSync(manifest.filepath, 'utf8');
   // Replace the bootstrap JS placeholder tokens with permitted environment variables
@@ -12,7 +12,8 @@ const handleBootstrap = ({ name, url, target, apiPath, manifest }) => async (req
     /__ENV__/g,
     JSON.stringify({
       library: name,
-      libraryUrl: url,
+      libraryUrl: apiUrl,
+      assetUrl: assetUrl || apiUrl,
       libraryTarget: target,
       libraryApiPath: apiPath,
       libraryEntry: manifest.entry || 'main.js',

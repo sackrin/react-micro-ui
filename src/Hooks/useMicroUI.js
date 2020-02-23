@@ -6,7 +6,6 @@ import { useState, useCallback, useEffect } from 'react';
   the hook will handle both loading the library and returning the callbacks to render micro UI components
   @param baseUrl = the url to the micro UI ie http://examplemicroui.com
   @param libraryName = the UMD library name
-  @param options = various helper options containing theme etc
  */
 function useMicroUI(baseUrl, libraryName) {
   const [libraryLoaded, setLibraryLoaded] = useState(0);
@@ -37,8 +36,8 @@ function useMicroUI(baseUrl, libraryName) {
   // Use the micro UI's exported render helper to render the actual component
   const renderComponent = useCallback(
     (ref, name, props) => {
-      if (window[libraryName] && window[libraryName].default.render) {
-        window[libraryName].default.render(ref, name, props);
+      if (window[libraryName] && window[libraryName].Render) {
+        window[libraryName].Render(ref, name, props);
       }
     },
     [libraryLoaded],

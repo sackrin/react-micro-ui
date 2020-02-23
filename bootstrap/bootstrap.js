@@ -20,12 +20,14 @@ const fetchAssetsHandler = () => {
   // Set the env vars in the window space for easy access
   window[`__MicroUI${env.library}Environment__`] = env;
   // Set the webpack custom URL for asset retrieval
-  window[`__MicroUI${env.library}AssetURL__`] = env.libraryUrl;
+  window[`__MicroUI${env.library}URL__`] = env.libraryUrl;
+  // Set the webpack custom URL for asset retrieval
+  window[`__MicroUI${env.library}AssetURL__`] = env.assetUrl;
   // Retrieve the main JS
   const entryUrl = manifest[env.libraryEntry || 'main.js'];
   // Load the manifest assets
   // @QUESTION should we support multiple entry files?
-  doLoadScript(`${env.libraryUrl}${entryUrl}`)
+  doLoadScript(`${env.assetUrl}${entryUrl}`)
     .catch(() => {
       window.dispatchEvent(getMicroUIErrorEvent(env));
     })
@@ -33,7 +35,6 @@ const fetchAssetsHandler = () => {
       window.dispatchEvent(getMicroUILoadedEvent(env));
     });
 };
-
 // If the document is ready or has DOM elements rendered
 // This is for loading bootstrap.js outside of the <HEAD>
 // PLEASE NOTE: Most SPA react applications will do this
