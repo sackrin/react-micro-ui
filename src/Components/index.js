@@ -1,1 +1,1 @@
-export { default as MicroUiComponent } from './MicroUiComponent';
+export { default as MicroUIComponent } from './MicroUIComponent';

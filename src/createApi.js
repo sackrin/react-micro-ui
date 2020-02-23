@@ -51,7 +51,7 @@ const createApi = ({ config, logger = console }) => {
       // Start the server listening on the provided port
       api.listen(config.api.port);
       // Log that something happened
-      logger.info(config.api.messages.STARTED_UP, port);
+      logger.info(config.api.messages.STARTED_UP, config.api.port);
     };
     // Returns the instance of the server, the strapper the booter, the config and the logger
     return { api, strap, boot, config, logger };
