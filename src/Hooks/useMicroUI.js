@@ -29,7 +29,7 @@ function useMicroUI(baseUrl, libraryName) {
   // Handle the micro UI emitting a loaded event
   const handleMicroUILoadEvent = useCallback(e => {
     // Since all micro UIs emit a microUILoaded custom event we need to check this is the one we are after
-    if (e.detail.library === libraryName) {
+    if (e.detail.name === libraryName) {
       setLibraryLoaded(true);
     }
   }, []);
