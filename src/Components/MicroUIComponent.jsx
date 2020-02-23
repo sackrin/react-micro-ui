@@ -22,4 +22,3 @@ export const MicroUIComponent = (props, el = <div />) => {
 };
 
 export default MicroUIComponent;
-s
