@@ -17,7 +17,7 @@ export const MicroUIComponent = (props) => {
     render(ref, name, props);
   }
   // Return out a div to embed within
-  // @TODO make this
+  // @TODO make this able to be passed in
   return <div ref={setRef} />;
 };
 
