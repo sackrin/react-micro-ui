@@ -11,12 +11,12 @@ const handleBootstrap = ({ name, apiUrl, assetUrl, target, apiPath, manifest, en
   contents = contents.replace(
     /__ENV__/g,
     JSON.stringify({
-      library: name,
-      libraryUrl: apiUrl,
+      name: name,
+      apiUrl: apiUrl,
+      apiPath: apiPath,
       assetUrl: assetUrl || apiUrl,
-      libraryTarget: target,
-      libraryApiPath: apiPath,
-      libraryEntry: manifest.entry || 'main.js',
+      assetTarget: target,
+      assetEntry: manifest.entry || 'main.js',
     }),
   );
   // WARNING! Try everything we can to make sure the assets are NOT cached

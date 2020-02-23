@@ -27,7 +27,7 @@ const fetchAssetsHandler = () => {
   const entryUrl = manifest[env.libraryEntry || 'main.js'];
   // Load the manifest assets
   // @QUESTION should we support multiple entry files?
-  doLoadScript(`${env.assetUrl}${entryUrl}`)
+  doLoadScript(`${env.assetUrl}/${entryUrl}`)
     .catch(() => {
       window.dispatchEvent(getMicroUIErrorEvent(env));
     })
