@@ -20,14 +20,14 @@ const fetchAssetsHandler = () => {
   // Set the env vars in the window space for easy access
   window[`__MicroUI${env.name}Environment__`] = env;
   // Set the webpack custom URL for asset retrieval
-  window[`__MicroUI${env.name}URL__`] = env.apiUrl;
+  window[`__MicroUI${env.name}URL__`] = env.apiUrl + '/';
   // Set the webpack custom URL for asset retrieval
-  window[`__MicroUI${env.name}AssetURL__`] = env.assetUrl;
+  window[`__MicroUI${env.name}AssetURL__`] = env.assetUrl + '/';
   // Retrieve the main JS
   const entryUrl = manifest[env.assetEntry || 'main.js'];
   // Load the manifest assets
   // @QUESTION should we support multiple entry files?
-  doLoadScript(`${env.assetUrl}/${entryUrl}`)
+  doLoadScript(`${env.assetUrl}${entryUrl}`)
     .catch(() => {
       window.dispatchEvent(getMicroUIErrorEvent(env));
     })
