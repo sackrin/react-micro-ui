@@ -4,7 +4,7 @@ const getJSWrapper = (name, config, props, el) => ('<div data-microui-library="'
   ' if (!!document.getElementById(`' + config.name + 'Library`)) { ' +
   '   var tag = document.createElement(\'script\'); ' +
   '   tag.id = `' + config.name + 'Library`; ' +
-  '   tag.src = `' + config.url + 'bootstrap.js`; ' +
+  '   tag.src = `' + config.api.url + '/bootstrap.js`; ' +
   '   document.body.appendChild(tag); ' +
   ' } ' +
   ' (function(n, c, p, t) { ' +

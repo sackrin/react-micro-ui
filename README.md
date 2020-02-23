@@ -1,5 +1,7 @@
 ## Micro UI
 
-Build steps
-1. ``npm run build``
-2. ``npm run assets``
+### Install
+```npm i -s https://github.com/sackrin/react-micro-ui#master```
+
+### Build steps
+``npx nps deploy``
