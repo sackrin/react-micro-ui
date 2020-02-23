@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMicroUI } from '../Hooks';
 
-export const MicroUIComponent = (props, el = <div />) => {
+export const MicroUIComponent = (props) => {
   // Deconstruct the micro UI component values
   const {
     microUi: { url, library, name },
@@ -18,7 +18,7 @@ export const MicroUIComponent = (props, el = <div />) => {
   }
   // Return out a div to embed within
   // @TODO make this
-  return <el ref={setRef} />;
+  return <div ref={setRef} />;
 };
 
 export default MicroUIComponent;
