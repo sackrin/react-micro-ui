@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const handleBootstrap = ({ name, assets, api, manifest, environments }) => async (req, res) => {
+const handleBootstrap = ({ name, assets, api, manifest, environments }) => async () => {
   // Retrieve the manifest file contents
   let manifestData = fs.readFileSync(manifest.filepath, 'utf8');
   // Replace the bootstrap JS placeholder tokens with permitted environment variables
@@ -21,11 +21,17 @@ const handleBootstrap = ({ name, assets, api, manifest, environments }) => async
   );
   // WARNING! Try everything we can to make sure the assets are NOT cached
   // This is the worst file to have cached, ensure this file does not cache
-  res.setHeader('content-type', 'application/javascript');
-  res.setHeader('expires', '-1');
-  res.setHeader('cache-control', 'private, no-cache, no-store, must-revalidate');
-  res.setHeader('pragma', 'no-cache');
-  res.send(contents);
+  return {
+    headers: {
+      'content-type': 'application/javascript',
+      expires: '-1',
+      'cache-control': 'private, no-cache, no-store, must-revalidate',
+      pragma: 'no-cache',
+    },
+    contentType: 'text',
+    body: contents,
+    status: 200,
+  };
 };
 
 export default handleBootstrap;

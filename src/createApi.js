@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import path from 'path';
 import compression from 'compression';
-import { getJSWrapper, handleBootstrap, handleNotFound } from './Handlers';
+import { getJSWrapper, handleBootstrap, handleNotFound, withExpress } from './Handlers';
 
 // Direct Import React
 // We have to do it this way to permit SSR react + hooks
@@ -28,7 +28,7 @@ const createApi = ({ config, logger = console }) => {
     // Serve static assets
     api.use(express.static('./.microui'));
     // Hydrate and output the bootstrapper script
-    api.get('/bootstrap.js', handleBootstrap(config));
+    api.get('/bootstrap.js', withExpress(handleBootstrap(config)));
     // Straps a component into the SSR api
     const strap = (name, component) => {
       // Handle a GET request to fetch a component
@@ -47,7 +47,7 @@ const createApi = ({ config, logger = console }) => {
     // Boots up the server
     const boot = () => {
       // Handle any 404 errors
-      api.use(handleNotFound);
+      api.use(withExpress(handleNotFound));
       // Start the server listening on the provided port
       api.listen(config.api.port);
       // Log that something happened

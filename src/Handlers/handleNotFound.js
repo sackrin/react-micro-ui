@@ -1,7 +1,5 @@
-const handleNotFound = async (req, res) => {
-  res
-    .status(404)
-    .json({ data: null, included: null, code: 404 });
-};
+const handleNotFound = async () => ({
+  status: 404,
+});
 
 export default handleNotFound;

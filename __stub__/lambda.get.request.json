@@ -1,0 +1,96 @@
+{
+  "rah": true,
+  "context": {
+    "callbackWaitsForEmptyEventLoop": true,
+    "functionVersion": "$LATEST",
+    "functionName": "mySimpleMicroUI",
+    "memoryLimitInMB": "512",
+    "logGroupName": "/aws/lambda/mySimpleMicroUI",
+    "logStreamName": "2020/02/29/[$LATEST]01a6ab17eb2c4f2f9af7f739c19ec077",
+    "invokedFunctionArn": "arn:aws:lambda:us-east-1:015867651054:function:mySimpleMicroUI",
+    "awsRequestId": "e65978c7-64df-43c7-8c2e-09ea684f4fc3"
+  },
+  "event": {
+    "version": 1,
+    "resource": "/bootstrap.js",
+    "path": "/bootstrap.js",
+    "httpMethod": "GET",
+    "headers": {
+      "Content-Length": "0",
+      "Host": "hy2pglcmug.execute-api.us-east-1.amazonaws.com",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36",
+      "X-Amzn-Trace-Id": "Root=1-5e59c0da-6df2f9001d069e00a6d1d000",
+      "X-Forwarded-For": "59.167.215.134",
+      "X-Forwarded-Port": "443",
+      "X-Forwarded-Proto": "https",
+      "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+      "accept-encoding": "gzip, deflate, br",
+      "accept-language": "en-GB,en;q=0.9,en-US;q=0.8,ja;q=0.7,la;q=0.6",
+      "cache-control": "max-age=0",
+      "sec-fetch-dest": "document",
+      "sec-fetch-mode": "navigate",
+      "sec-fetch-site": "none",
+      "sec-fetch-user": "?1",
+      "upgrade-insecure-requests": "1"
+    },
+    "multiValueHeaders": {
+      "Content-Length": ["0"],
+      "Host": ["hy2pglcmug.execute-api.us-east-1.amazonaws.com"],
+      "User-Agent": [
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36"
+      ],
+      "X-Amzn-Trace-Id": ["Root=1-5e59c0da-6df2f9001d069e00a6d1d000"],
+      "X-Forwarded-For": ["59.167.215.134"],
+      "X-Forwarded-Port": ["443"],
+      "X-Forwarded-Proto": ["https"],
+      "accept": [
+        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+      ],
+      "accept-encoding": ["gzip, deflate, br"],
+      "accept-language": ["en-GB,en;q=0.9,en-US;q=0.8,ja;q=0.7,la;q=0.6"],
+      "cache-control": ["max-age=0"],
+      "sec-fetch-dest": ["document"],
+      "sec-fetch-mode": ["navigate"],
+      "sec-fetch-site": ["none"],
+      "sec-fetch-user": ["?1"],
+      "upgrade-insecure-requests": ["1"]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "requestContext": {
+      "accountId": "015867651054",
+      "apiId": "hy2pglcmug",
+      "authorizer": { "claims": null, "scopes": null },
+      "domainName": "hy2pglcmug.execute-api.us-east-1.amazonaws.com",
+      "domainPrefix": "hy2pglcmug",
+      "extendedRequestId": "IosSHiKXoAMESLA=",
+      "httpMethod": "GET",
+      "identity": {
+        "accessKey": null,
+        "accountId": null,
+        "caller": null,
+        "cognitoAuthenticationProvider": null,
+        "cognitoAuthenticationType": null,
+        "cognitoIdentityId": null,
+        "cognitoIdentityPoolId": null,
+        "principalOrgId": null,
+        "sourceIp": "59.167.215.134",
+        "user": null,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36",
+        "userArn": null
+      },
+      "path": "/bootstrap.js",
+      "protocol": "HTTP/1.1",
+      "requestId": "IosSHiKXoAMESLA=",
+      "requestTime": "29/Feb/2020:01:39:38 +0000",
+      "requestTimeEpoch": 1582940378214,
+      "resourceId": null,
+      "resourcePath": "/bootstrap.js",
+      "stage": "$default"
+    },
+    "pathParameters": null,
+    "stageVariables": null,
+    "body": null,
+    "isBase64Encoded": true
+  }
+}
