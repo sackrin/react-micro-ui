@@ -2,7 +2,7 @@
   "name": "@sackrin/react-micro-ui",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sackrin/react-micro-ui.git"

@@ -1,8 +1,7 @@
 import React from "react";
-import { render } from "react-dom";
 
-const renderComponent = (Components) => (containerEl, name, props) => {
-  const Comp = Components[name];
+const renderComponent = (render, components) => (containerEl, name, props) => {
+  const Comp = components[name];
   render(<Comp {...props} />, containerEl);
 };
 

@@ -1,8 +1,7 @@
 import React from "react";
-import { hydrate } from "react-dom";
 
-const hydrateComponent = (Components) => (containerEl, name, props) => {
-  const Comp = Components[name];
+const hydrateComponent = (hydrate, components) => (containerEl, name, props) => {
+  const Comp = components[name];
   hydrate(<Comp {...props} />, containerEl);
 };
 
