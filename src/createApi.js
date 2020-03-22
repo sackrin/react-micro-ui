@@ -1,12 +1,11 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import { createElement } from 'react';
 import express, { json } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import path from 'path';
 import compression from 'compression';
-import { getJSWrapper, handleBootstrap, handleNotFound, withExpress } from './Handlers';
+import { handleBootstrap, handleNotFound, strapWithExpress, withExpress } from './Handlers';
 
 // Direct Import React
 // We have to do it this way to permit SSR react + hooks
@@ -32,17 +31,9 @@ const createApi = ({ config, logger = console }) => {
     // Straps a component into the SSR api
     const strap = (name, component) => {
       // Handle a GET request to fetch a component
-      api.get(`/${name}`, (req, res) => {
-        res.send(
-          getJSWrapper(name, config, req.query, ReactDOMServer.renderToString(createElement(component, req.query))),
-        );
-      });
+      api.get(`/${name}`, strapWithExpress(name, component, config, 'GET'));
       // Handle a POST request to fetch a component
-      api.post(`/${name}`, (req, res) => {
-        res.send(
-          getJSWrapper(name, config, req.body, ReactDOMServer.renderToString(createElement(component, req.body))),
-        );
-      });
+      api.post(`/${name}`, strapWithExpress(name, component, config, 'POST'));
     };
     // Boots up the server
     const boot = () => {
