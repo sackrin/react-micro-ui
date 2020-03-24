@@ -23,11 +23,9 @@ module.exports = {
     },
   },
   environments: {
-    identifier: 'ENV_ID',
     default: 'local',
     profiles: {
       local: {},
-      latest: {},
     },
   },
 };
