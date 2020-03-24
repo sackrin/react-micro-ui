@@ -3,7 +3,7 @@ import 'regenerator-runtime/runtime';
 import defaultConfig from '../microui.default.config';
 import { handleBootstrap, strapWithLambda, withLambda } from './Handlers';
 
-const createLambda = ({ config, profile = 'local', logger = console }) => (event, context, callback) => {
+const createLambda = (event, context, callback, { config, profile = 'local', logger = console }) => {
   // Get the combined config
   const _config = { ...defaultConfig, ...config };
   // Where we will store the lambda routes
@@ -13,7 +13,7 @@ const createLambda = ({ config, profile = 'local', logger = console }) => (event
     // Saying hello
     logger.info(_config.api.messages.START_UP);
     // Hydrate and output the bootstrapper script
-    api.get(['/bootstrap.js', 'GET', withLambda(handleBootstrap(profile, _config))]);
+    routes.push(['/bootstrap.js', 'GET', withLambda(handleBootstrap(profile, _config))]);
     // Adds a route to a router of sorts
     const route = (path, method, handler) => {
       // Push into the route queue
@@ -22,21 +22,29 @@ const createLambda = ({ config, profile = 'local', logger = console }) => (event
     // Straps a component into the SSR api
     const strap = (name, component) => {
       // Handle a GET request to fetch a component
-      routes.push([`/name`, 'GET', strapWithLambda(name, component, _config, 'GET')]);
+      routes.push([`/${name}`, 'GET', strapWithLambda(name, component, _config, 'GET')]);
       // Handle a POST request to fetch a component
-      routes.push([`/name`, 'POST', strapWithLambda(name, component, _config, 'POST')]);
+      routes.push([`/${name}`, 'POST', strapWithLambda(name, component, _config, 'POST')]);
     };
     // Boots and executes the lambda server
-    const boot = (event, context, callback) => {
+    const boot = async (event, context, callback) => {
       // Retrieve the path and method
       const { path, httpMethod } = event;
       // Search for and return the relevant handler
       // @TODO would be cool to use a regex in the future?
       const handler = routes.reduce((curr, [_path, _method, _handler]) => {
-        return _path === path && httpMethod && _method ? _handler : curr;
+        return _path === path && httpMethod === _method ? _handler : curr;
       }, undefined);
+      // Retrieve the payload
+      const payload = handler ? await handler(event, context) : {
+        statusCode: '404',
+        body: JSON.stringify({ rah: true }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
       // Trigger the callback
-      callback(null, handler(event, context));
+      callback(null, payload);
     };
     // Returns the environment vars
     const env = () => {
