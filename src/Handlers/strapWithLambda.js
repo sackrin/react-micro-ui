@@ -8,19 +8,18 @@ const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-d
 
 const strapWithLambda = (name, component, config, method) => (event, context) => {
   const { queryStringParameters, body } = event;
-  const httpQuery = queryStringParameters && queryStringParameters === null ? {} : queryStringParameters;
-  const httpBody = body && body === null ? {} : JSON.stringify(body);
+  const httpQuery = queryStringParameters || queryStringParameters === null ? {} : queryStringParameters;
+  const httpBody = body || body === null ? {} : JSON.stringify(body);
   const props = { ...httpQuery, ...httpBody };
   return {
     headers: {
-      'content-type': 'application/javascript',
+      'content-type': 'text/html',
       expires: '-1',
       'cache-control': 'private, no-cache, no-store, must-revalidate',
       pragma: 'no-cache',
     },
-    contentType: 'text',
+    statusCode: 200,
     body: getJSWrapper(name, config, props, ReactDOMServer.renderToString(createElement(component, props))),
-    status: 200,
   };
 };
 
