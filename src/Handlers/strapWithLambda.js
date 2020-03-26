@@ -8,8 +8,8 @@ const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-d
 
 const strapWithLambda = (name, component, config, method) => (event, context) => {
   const { queryStringParameters, body } = event;
-  const httpQuery = queryStringParameters === null ? {} : queryStringParameters;
-  const httpBody = body === null ? {} : JSON.stringify(body);
+  const httpQuery = queryStringParameters && queryStringParameters === null ? {} : queryStringParameters;
+  const httpBody = body && body === null ? {} : JSON.stringify(body);
   const props = { ...httpQuery, ...httpBody };
   return {
     headers: {

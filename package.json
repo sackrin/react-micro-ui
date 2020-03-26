@@ -1,6 +1,6 @@
 {
   "name": "@sackrin/react-micro-ui",
-  "version": "0.1.0",
+  "version": "0.1.15",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -11,7 +11,9 @@
     "start": "npx nps"
   },
   "files": [
-    "lib"
+    "lib",
+    "assets",
+    "webpack"
   ],
   "author": "Hilary Osborne",
   "license": "ISC",
@@ -41,6 +43,7 @@
     "regenerator-runtime": "^0.13.5"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "babel-loader": "^8.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.3.0",
     "compression-webpack-plugin": "^3.1.0",

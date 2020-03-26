@@ -4,7 +4,7 @@ import express, { json } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
-import defaultConfig from '../microui.default.config';
+import defaultConfig from './microui.default.config';
 import { handleBootstrap, handleNotFound, strapWithExpress, withExpress } from './Handlers';
 
 const createApi = ({ config, profile = 'local', logger = console }) => {

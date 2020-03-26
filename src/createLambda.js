@@ -1,9 +1,9 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import defaultConfig from '../microui.default.config';
+import defaultConfig from './microui.default.config';
 import { handleBootstrap, strapWithLambda, withLambda } from './Handlers';
 
-const createLambda = (event, context, callback, { config, profile = 'local', logger = console }) => {
+const createLambda = (event, context, { config, profile = 'local', logger = console }) => {
   // Get the combined config
   const _config = { ...defaultConfig, ...config };
   // Where we will store the lambda routes
@@ -27,7 +27,7 @@ const createLambda = (event, context, callback, { config, profile = 'local', log
       routes.push([`/${name}`, 'POST', strapWithLambda(name, component, _config, 'POST')]);
     };
     // Boots and executes the lambda server
-    const boot = async (event, context, callback) => {
+    const boot = async (event, context) => {
       // Retrieve the path and method
       const { path, httpMethod } = event;
       // Search for and return the relevant handler
@@ -36,15 +36,15 @@ const createLambda = (event, context, callback, { config, profile = 'local', log
         return _path === path && httpMethod === _method ? _handler : curr;
       }, undefined);
       // Retrieve the payload
-      const payload = handler ? await handler(event, context) : {
-        statusCode: '404',
-        body: JSON.stringify({ rah: true }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      // Trigger the callback
-      callback(null, payload);
+      return handler
+        ? handler(event, context)
+        : {
+            statusCode: '404',
+            body: JSON.stringify({}),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          };
     };
     // Returns the environment vars
     const env = () => {
@@ -60,6 +60,14 @@ const createLambda = (event, context, callback, { config, profile = 'local', log
   } catch (e) {
     // Log out the thrown error
     logger.error(_config.api.messages.CRASHED, e.message);
+    // Trigger the callback
+    return {
+      statusCode: '500',
+      body: JSON.stringify({ itBroke: true }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
   }
 };
 
