@@ -6,7 +6,7 @@ import { createElement } from 'react';
 // We have to do it this way to permit SSR react + hooks
 const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-dom', 'server'));
 
-const strapWithLambda = (name, component, config, method) => (event, context) => {
+const strapWithLambda = (name, component, env, config, method) => (event, context) => {
   const { queryStringParameters, body } = event;
   const httpQuery = queryStringParameters || queryStringParameters === null ? {} : queryStringParameters;
   const httpBody = body || body === null ? {} : JSON.stringify(body);
@@ -19,7 +19,7 @@ const strapWithLambda = (name, component, config, method) => (event, context) =>
       pragma: 'no-cache',
     },
     statusCode: 200,
-    body: getJSWrapper(name, config, props, ReactDOMServer.renderToString(createElement(component, props))),
+    body: getJSWrapper(name, env, config, props, ReactDOMServer.renderToString(createElement(component, props))),
   };
 };
 

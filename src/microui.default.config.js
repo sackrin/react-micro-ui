@@ -19,13 +19,22 @@ module.exports = {
     messages: {
       START_UP: 'API starting',
       STARTED_UP: 'API started and listening on port',
-      CRASHED: 'API crashed with message'
+      CRASHED: 'API crashed with message',
     },
   },
   environments: {
     default: 'local',
     profiles: {
-      local: {},
+      local: {
+        assets: {
+          url: process.env.ASSET_URL || 'http://localhost:9000',
+        },
+        api: {
+          url: process.env.API_URL || 'http://localhost:9000',
+          path: process.env.API_PATH || '/api/v1',
+          port: process.env.API_PORT || 9000,
+        },
+      },
     },
   },
 };
