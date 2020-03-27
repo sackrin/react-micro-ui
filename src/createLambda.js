@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import defaultConfig from './microui.default.config';
-import { handleBootstrap, strapWithLambda, withLambda } from './Handlers';
+import { handleBootstrap, handleLambdaNotFound, strapWithLambda, withLambda } from './Handlers';
 
 const createLambda = (event, context, { config, profile = 'local', logger = console }) => {
   // Get the combined config
@@ -9,10 +9,11 @@ const createLambda = (event, context, { config, profile = 'local', logger = cons
   // Retrieve the environment profiles
   const env = environments.profiles[profile] || environments.profiles[environments.default];
   // Allow for env overrides
-  const _cors = env.api?.cors ? env.api?.cors : _config.api.cors;
-  const _trustProxy = env.api?.trustProxy ? env.api?.trustProxy : _config.api.trustProxy;
-  const _port = env.api?.port ? env.api?.port : _config.api.port;
   const _messages = env.api?.messages ? env.api?.messages : _config.api.messages;
+  // Retrieve any api env
+  const apiEnv = env.api?.env ? env.api?.env : {};
+  // Update the process env with any provided api env
+  process.env = { ...process.env, ...apiEnv };
   // Where we will store the lambda routes
   const routes = [];
   // Attempt to start the express server
@@ -39,19 +40,13 @@ const createLambda = (event, context, { config, profile = 'local', logger = cons
       const { path, httpMethod } = event;
       // Search for and return the relevant handler
       // @TODO would be cool to use a regex in the future?
-      const handler = routes.reduce((curr, [_path, _method, _handler]) => {
-        return _path === path && httpMethod === _method ? _handler : curr;
-      }, undefined);
+      // @TODO yes a find would probably be better
+      const handler = routes.reduce(
+        (curr, [_path, _method, _handler]) => (_path === path && httpMethod === _method ? _handler : curr),
+        undefined,
+      );
       // Retrieve the payload
-      return handler
-        ? handler(event, context)
-        : {
-            statusCode: '404',
-            body: JSON.stringify({}),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          };
+      return handler ? handler(event, context) : handleLambdaNotFound();
     };
     // Returns the instance of the server, the strapper the booter, the config and the logger
     return { route, strap, boot, env, config: _config, logger };

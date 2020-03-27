@@ -5,9 +5,9 @@ import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
 import defaultConfig from './microui.default.config';
-import { handleBootstrap, handleNotFound, strapWithExpress, withExpress } from './Handlers';
+import { handleBootstrap, handleExpressNotFound, strapWithExpress, withExpress } from './Handlers';
 
-const createApi = ({ config, profile = 'local', logger = console }) => {
+const createExpress = ({ config, profile = 'local', logger = console }) => {
   // Get the combined config
   const _config = { ...defaultConfig, ...config };
   // Retrieve the environment profiles
@@ -17,6 +17,10 @@ const createApi = ({ config, profile = 'local', logger = console }) => {
   const _trustProxy = env.api?.trustProxy ? env.api?.trustProxy : _config.api.trustProxy;
   const _port = env.api?.port ? env.api?.port : _config.api.port;
   const _messages = env.api?.messages ? env.api?.messages : _config.api.messages;
+  // Retrieve any api env
+  const apiEnv = env.api?.env ? env.api?.env : {};
+  // Update the process env with any provided api env
+  process.env = { ...process.env, ...apiEnv };
   // Attempt to start the express server
   try {
     // Saying hello
@@ -43,7 +47,7 @@ const createApi = ({ config, profile = 'local', logger = console }) => {
     // Boots up the server
     const boot = () => {
       // Handle any 404 errors
-      api.use(withExpress(handleNotFound));
+      api.use(withExpress(handleExpressNotFound));
       // Start the server listening on the provided port
       api.listen(_port);
       // Log that something happened
@@ -59,4 +63,4 @@ const createApi = ({ config, profile = 'local', logger = console }) => {
   }
 };
 
-export default createApi;
+export default createExpress;
