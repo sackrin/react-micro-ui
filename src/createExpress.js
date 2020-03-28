@@ -11,7 +11,7 @@ const createExpress = ({ config, profile = 'local', logger = console }) => {
   // Get the combined config
   const _config = { ...defaultConfig, ...config };
   // Retrieve the environment profiles
-  const env = environments.profiles[profile] || environments.profiles[environments.default];
+  const env = config.environments.profiles[profile] || config.environments.profiles[config.environments.default];
   // Allow for env overrides
   const _cors = env.api?.cors ? env.api?.cors : _config.api.cors;
   const _trustProxy = env.api?.trustProxy ? env.api?.trustProxy : _config.api.trustProxy;

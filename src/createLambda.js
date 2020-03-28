@@ -7,7 +7,7 @@ const createLambda = (event, context, { config, profile = 'local', logger = cons
   // Get the combined config
   const _config = { ...defaultConfig, ...config };
   // Retrieve the environment profiles
-  const env = environments.profiles[profile] || environments.profiles[environments.default];
+  const env = config.environments.profiles[profile] || config.environments.profiles[config.environments.default];
   // Allow for env overrides
   const _messages = env.api?.messages ? env.api?.messages : _config.api.messages;
   // Retrieve any api env
@@ -37,16 +37,20 @@ const createLambda = (event, context, { config, profile = 'local', logger = cons
     // Boots and executes the lambda server
     const boot = async (event, context) => {
       // Retrieve the path and method
-      const { path, httpMethod } = event;
+      const {
+        requestContext: {
+          http: { path, method },
+        },
+      } = event;
       // Search for and return the relevant handler
       // @TODO would be cool to use a regex in the future?
       // @TODO yes a find would probably be better
       const handler = routes.reduce(
-        (curr, [_path, _method, _handler]) => (_path === path && httpMethod === _method ? _handler : curr),
+        (curr, [_path, _method, _handler]) => (_path === path && method === _method ? _handler : curr),
         undefined,
       );
       // Retrieve the payload
-      return handler ? handler(event, context) : handleLambdaNotFound();
+      return handler ? handler(event, context) : handleLambdaNotFound(event, context);
     };
     // Returns the instance of the server, the strapper the booter, the config and the logger
     return { route, strap, boot, env, config: _config, logger };
