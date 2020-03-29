@@ -13,7 +13,7 @@ module.exports = {
       watch: 'nodemon --watch src --exec npx nps deploy',
       build: series('npx nps clean', 'npx nps deploy.lib', 'npx nps deploy.assets'),
       lib: series(mkdirp('lib'), `npx babel src --config-file ./babel.lib.config.json --out-dir ./lib`),
-      assets: series(mkdirp('assets'), `npx webpack --config ./webpack.config.js`),
+      assets: series(mkdirp('lib/bootstrap'), `npx webpack --config ./webpack.config.js`),
     },
   },
 };

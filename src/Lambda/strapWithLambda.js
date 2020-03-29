@@ -1,6 +1,6 @@
 import path from 'path';
-import getJSWrapper from './getJSWrapper';
 import { createElement } from 'react';
+import getJSWrapper from '../Helpers/getJSWrapper';
 
 // Direct Import React
 // We have to do it this way to permit SSR react + hooks
@@ -8,8 +8,8 @@ const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-d
 
 const strapWithLambda = (name, component, env, config, method) => (event, context) => {
   const { queryStringParameters, body } = event;
-  const httpQuery = queryStringParameters || queryStringParameters === null ? {} : queryStringParameters;
-  const httpBody = body || body === null ? {} : JSON.stringify(body);
+  const httpQuery = !queryStringParameters ? {} : queryStringParameters;
+  const httpBody = !body ? {} : JSON.parse(body);
   const props = { ...httpQuery, ...httpBody };
   return {
     headers: {

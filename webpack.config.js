@@ -7,7 +7,6 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -18,11 +17,15 @@ const appNodeModules = path.resolve(fs.realpathSync(process.cwd()), 'node_module
 module.exports = {
 	entry: `./bootstrap/bootstrap.js`,
 	devtool: 'source-map',
+  node: {
+    fs: 'empty',
+    net: 'empty'
+  },
 	output: {
 		filename: 'bootstrap.js',
 		publicPath: publicPath,
 		globalObject: `(typeof self !== 'undefined' ? self : this)`,
-		path: path.resolve(__dirname, './assets'),
+		path: path.resolve(__dirname, './lib/bootstrap'),
 		pathinfo: true,
 	},
 	resolve: {
@@ -84,6 +87,11 @@ module.exports = {
 	plugins: [
 		// Clean up the current public folder
 		new WebpackCleanupPlugin(),
+    // Build and output the manifest
+    new ManifestPlugin({
+      fileName: 'manifest.json',
+      publicPath: publicPath,
+    }),
 		// This gives some necessary context to module not found errors, such as
 		// the requesting resource.
 		new ModuleNotFoundPlugin(appPath),

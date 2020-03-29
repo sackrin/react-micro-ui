@@ -5,7 +5,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
 import defaultConfig from './microui.default.config';
-import { handleBootstrap, handleExpressNotFound, strapWithExpress, withExpress } from './Handlers';
+import { handleBootstrap } from './Handlers';
+import { handleExpressNotFound, strapWithExpress, withExpress } from './Express';
 
 const createExpress = ({ config, profile = 'local', logger = console }) => {
   // Get the combined config

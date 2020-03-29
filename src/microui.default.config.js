@@ -33,7 +33,6 @@ module.exports = {
         api: {
           url: process.env.API_URL || 'http://localhost:9000',
           path: process.env.API_PATH || '/api/v1',
-          port: process.env.API_PORT || 9000,
           env: {}
         },
       },

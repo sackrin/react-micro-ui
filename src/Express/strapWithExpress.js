@@ -1,6 +1,6 @@
 import path from 'path';
-import getJSWrapper from './getJSWrapper';
 import { createElement } from 'react';
+import getJSWrapper from '../Helpers/getJSWrapper';
 
 // Direct Import React
 // We have to do it this way to permit SSR react + hooks

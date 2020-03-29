@@ -1,7 +1,8 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import defaultConfig from './microui.default.config';
-import { handleBootstrap, handleLambdaNotFound, strapWithLambda, withLambda } from './Handlers';
+import { handleBootstrap } from './Handlers';
+import { handleLambdaNotFound, strapWithLambda, withLambda } from './Lambda';
 
 const createLambda = (event, context, { config, profile = 'local', logger = console }) => {
   // Get the combined config
