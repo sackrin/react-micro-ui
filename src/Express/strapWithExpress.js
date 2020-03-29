@@ -1,6 +1,6 @@
 import path from 'path';
 import { createElement } from 'react';
-import getJSWrapper from '../Helpers/getJSWrapper';
+import embedComponent from '../Helpers/embedComponent';
 
 // Direct Import React
 // We have to do it this way to permit SSR react + hooks
@@ -8,7 +8,7 @@ const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-d
 
 const strapWithExpress = (name, component, env, config, method) => (req, res) => {
   res.send(
-    getJSWrapper(
+    embedComponent(
       name,
       env,
       config,

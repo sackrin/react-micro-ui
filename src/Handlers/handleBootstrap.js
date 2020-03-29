@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const handleBootstrap = (profile, env, { name, assets, api, manifest, environments }) => async () => {
+const handleBootstrap = (profile, env, { name, assets, api, manifest }) => async () => {
   // Retrieve the manifest file contents
   let manifestData = fs.readFileSync(manifest.filepath, 'utf8');
   // Determine the correct api and asset values based on
@@ -17,13 +17,13 @@ const handleBootstrap = (profile, env, { name, assets, api, manifest, environmen
   contents = contents.replace(
     /__ENV__/g,
     JSON.stringify({
-      name: name,
+      name,
       apiUrl,
       apiPath,
       assetUrl: assetUrl || apiUrl,
       assetTarget,
       assetEntry: manifest.entry || 'main.js',
-      ...assetEnv
+      ...assetEnv,
     }),
   );
   // WARNING! Try everything we can to make sure the assets are NOT cached

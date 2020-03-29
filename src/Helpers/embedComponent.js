@@ -1,6 +1,20 @@
-const getJSWrapper = (name, env, config, props, el) => {
-  // Allow for env overrides
-  const apiUrl = env.api?.url ? env.api?.url : config.api.url;
+const embedComponent = (name, env, config, props, el) => {
+  // Determine the correct api and asset values based on
+  const apiUrl = env.api?.url ? env.api?.url : api.url;
+  const apiPath = env.api?.path ? env.api?.path : api.path;
+  const assetUrl = env.assets?.url ? env.assets?.url : apiUrl;
+  const assetTarget = env.assets?.target ? env.assets?.target : assets.target;
+  const assetEnv = env.assets?.env ? env.assets?.env : {};
+  // Construct the props to be passed to the rendered component
+  const _props = {
+    name,
+    apiUrl,
+    apiPath,
+    assetUrl: assetUrl || apiUrl,
+    assetTarget,
+    ...assetEnv,
+    ...props,
+  };
   // Return the built component
   return ('<div data-microui-library="' + config.name + '" data-microui-component="' + name + '">' +
     '' + el + '' +
@@ -12,7 +26,7 @@ const getJSWrapper = (name, env, config, props, el) => {
     '    w[n].Hydrate(document.querySelector(`div[data-microui-component="' + name + '"] div[data-reactroot]`),c,p,t);' +
     '   };' +
     '  };' +
-    '  if (w[\'exampleMicroUI\']) { m(); } else { w.addEventListener(\'microUILoaded\', m); }' +
+    '  if (w[config.name]) { m(); } else { w.addEventListener(\'microUILoaded\', m); }' +
     '  var d = document.getElementById(`' + config.name + 'Library`);' +
     '  if (d === null || d.length === 0) {' +
     '   var tag = document.createElement(\'script\');' +
@@ -20,8 +34,8 @@ const getJSWrapper = (name, env, config, props, el) => {
     '   tag.src = `' + apiUrl + '/bootstrap.js`;' +
     '   document.body.appendChild(tag);' +
     '  }' +
-    ' })(\'' + config.name + '\', \'' + name + '\', ' + JSON.stringify(props) + ', {});' +
+    ' })(\'' + config.name + '\', \'' + name + '\', ' + JSON.stringify(_props) + ', {});' +
     '</script>');
 };
 
-export default getJSWrapper;
+export default embedComponent;
