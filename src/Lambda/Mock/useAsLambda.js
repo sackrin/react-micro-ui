@@ -1,9 +1,9 @@
-import getLambdaEvent from './getLambdaEvent';
-import getLambdaContext from './getLambdaContext';
+import mockEvent from './mockEvent';
+import mockContext from './mockContext';
 
-const asLambda = handler => async (req, res) => {
-  const event = getLambdaEvent(req, res);
-  const context = getLambdaContext(req, res);
+const useAsLambda = handler => async (req, res) => {
+  const event = mockEvent(req, res);
+  const context = mockContext(req, res);
   const payload = await handler(event, context);
   switch (payload?.headers['content-type']) {
     case 'text/html': {
@@ -24,4 +24,4 @@ const asLambda = handler => async (req, res) => {
   }
 };
 
-export default asLambda;
+export default useAsLambda;

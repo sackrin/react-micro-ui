@@ -1,4 +1,4 @@
-const getLambdaEvent = (req, res) => ({
+const mockEvent = (req, res) => ({
   version: '2.0',
   routeKey: `${req.method} ${req.path}`,
   rawPath: req.path,
@@ -29,4 +29,4 @@ const getLambdaEvent = (req, res) => ({
   isBase64Encoded: false,
 });
 
-export default getLambdaEvent;
+export default mockEvent;
