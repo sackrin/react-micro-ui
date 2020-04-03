@@ -5,7 +5,7 @@ module.exports = {
     default: 'nps production',
     clean: {
       description: 'Deletes the various generated folders',
-      script: series(rimraf('./assets'), rimraf('./lib')),
+      script: rimraf('./lib'),
     },
     deploy: {
       description: 'Builds the assets',
