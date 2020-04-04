@@ -14,7 +14,6 @@ module.exports = {
     url: 'http://localhost:9000',
     path: '/api/v1',
     port: 9000,
-    trustProxy: 'trust proxy',
     cors: { origin: '*' },
     messages: {
       START_UP: 'API starting',

@@ -1,7 +1,18 @@
 import fs from 'fs';
 import path from 'path';
+import express from 'express';
+import type { MicroUiConfig } from "../Types/MicroUiConfig";
+import type { MicroUiConfigProfileEnv } from "../Types/MicroUiConfigProfileEnv";
 
-const handleBootstrap = (profile, env, { name, assets, api, manifest }) => async () => {
+type HandleExpressBootstrap = (
+  env: MicroUiConfigProfileEnv,
+  config: MicroUiConfig,
+) => (req: express.Request, res: express.Response) => Promise<void>;
+
+const handleExpressBootstrap: HandleExpressBootstrap = ( env, { name, assets, api, manifest }) => async (
+  req,
+  res,
+) => {
   // Retrieve the manifest file contents
   let manifestData = fs.readFileSync(manifest.filepath, 'utf8');
   // Determine the correct api and asset values based on
@@ -28,17 +39,12 @@ const handleBootstrap = (profile, env, { name, assets, api, manifest }) => async
   );
   // WARNING! Try everything we can to make sure the assets are NOT cached
   // This is the worst file to have cached, ensure this file does not cache
-  return {
-    headers: {
-      'content-type': 'application/javascript',
-      expires: '-1',
-      'cache-control': 'private, no-cache, no-store, must-revalidate',
-      pragma: 'no-cache',
-    },
-    contentType: 'text',
-    body: contents,
-    status: 200,
-  };
+  res.set('Content-Type', 'application/javascript');
+  res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.set('Expires', '-1');
+  res.set('Pragma', 'no-cache');
+  res.sendStatus(200);
+  res.send(contents);
 };
 
-export default handleBootstrap;
+export default handleExpressBootstrap;
