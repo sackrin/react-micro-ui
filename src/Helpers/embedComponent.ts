@@ -1,10 +1,15 @@
-const embedComponent = (name, env, config, props, el) => {
+import type { MicroUiConfig } from "../Types/MicroUiConfig";
+import type { MicroUiConfigProfileEnv } from "../Types/MicroUiConfigProfileEnv";
+
+type EmbedComponent = (name: string, env: MicroUiConfigProfileEnv, config: MicroUiConfig, props: any, el: string) => string;
+
+const embedComponent: EmbedComponent = (name, env, config, props, el) => {
   // Determine the correct api and asset values based on
-  const apiUrl = env.api?.url ? env.api?.url : api.url;
-  const apiPath = env.api?.path ? env.api?.path : api.path;
-  const assetUrl = env.assets?.url ? env.assets?.url : apiUrl;
-  const assetTarget = env.assets?.target ? env.assets?.target : assets.target;
-  const assetEnv = env.assets?.env ? env.assets?.env : {};
+  const apiUrl = env.api?.url || config.api.url;
+  const apiPath = env.api?.path || config.api.path;
+  const assetUrl = env.assets?.url || apiUrl;
+  const assetTarget = env.assets?.target || config.assets.target;
+  const assetEnv = env.assets?.env || {};
   // Construct the props to be passed to the rendered component
   const _props = {
     name,
