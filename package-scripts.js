@@ -2,13 +2,10 @@ const { series, rimraf, mkdirp } = require('nps-utils');
 
 module.exports = {
   scripts: {
-    default: 'nps production',
-    clean: {
-      description: 'Deletes the various generated folders',
-      script: rimraf('./lib'),
-    },
+    default: 'nps build',
     codestandards: {
-      typing: 'tsc --watch'
+      default: series('typing'),
+      typing: 'tsc'
     },
     build: {
       description: 'Builds the assets',
@@ -16,6 +13,10 @@ module.exports = {
       watch: 'nodemon --watch src --exec npx nps build',
       lib: series(mkdirp('lib'), `npx babel src --extensions '.ts,.tsx,.js' --config-file ./babel.lib.config.json --out-dir ./lib`),
       assets: series(mkdirp('lib/bootstrap'), `npx webpack --config ./webpack.config.js`),
+    },
+    clean: {
+      description: 'Deletes the various generated folders',
+      script: rimraf('./lib'),
     },
   },
 };

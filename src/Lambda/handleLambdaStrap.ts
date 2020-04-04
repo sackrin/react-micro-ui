@@ -27,9 +27,9 @@ const handleLambdaStrap: HandleLambdaStrap = (name, component, env, config, meth
   return {
     headers: {
       'content-type': 'text/html',
-      expires: '-1',
+      'expires': '-1',
       'cache-control': 'private, no-cache, no-store, must-revalidate',
-      pragma: 'no-cache',
+      'pragma': 'no-cache',
     },
     body: html,
     statusCode: 200,
