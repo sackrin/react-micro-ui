@@ -1,11 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import handleLambdaStrap from '../handleLambdaStrap';
 import config from '../../microui.default.config';
 
 describe('Lambda/handleLambdaStrap', () => {
-  const mockEvent = {};
   const mockContext = {};
   const ExampleComponent = props => <div>{props.name}</div>;
 
