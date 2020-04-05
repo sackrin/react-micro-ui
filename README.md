@@ -8,22 +8,15 @@ This is a npm library available for installation via npm
 
 ```npm i -s @sackrin/react-micro-ui```
 
-## Quick Usage
+## Hosting
 
-```js
-import { hydrate, render } from "react-dom";
-import ExampleComponent from './ExampleComponent';
-import { renderComponent, hydrateComponent, childComponent } from '@sackrin/react-micro-ui/lib/Helpers';
+### Example usage using AWS Lambda
+https://github.com/sackrin/react-micro-ui-lambda
 
-export const Components = {
-  ExampleComponent,
-};
+### Example usage using Express
+https://github.com/sackrin/react-micro-ui-express
 
-export const Helpers = {
-  ExampleHelper: () => { console.log('Hello World!'); }
-};
+## Embedding
 
-export const Hydrate = hydrateComponent(hydrate, Components);
-export const Render = renderComponent(render, Components);
-export const Child = childComponent(Components);
-```
+### Example embedding within NextJS
+https://github.com/sackrin/nextjs-micro-ui-example
