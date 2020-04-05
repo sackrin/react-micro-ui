@@ -1,11 +1,16 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import handleExpressNotFound from '../handleExpressNotFound';
 
 describe('Express/handleExpressNotFound', () => {
+
+  const mockReq = {};
+  const mockRes = {
+    sendStatus: sinon.fake()
+  };
+
   it('can correctly output a not found response for express', async () => {
-    const payload = await handleExpressNotFound();
-    expect(payload).to.deep.equal({
-      status: 404,
-    });
+    await handleExpressNotFound(mockReq, mockRes);
+    expect(mockRes.sendStatus).to.have.been.calledWith(404);
   });
 });

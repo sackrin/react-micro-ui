@@ -3,9 +3,10 @@ const { series, rimraf, mkdirp } = require('nps-utils');
 module.exports = {
   scripts: {
     default: 'nps build',
-    codestandards: {
-      default: series('typing'),
-      typing: 'tsc'
+    standards: {
+      default: series('npx nps standards.typing', 'npx nps standards.unit'),
+      typing: 'tsc',
+      unit: 'npx jest'
     },
     build: {
       description: 'Builds the assets',
