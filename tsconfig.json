@@ -3,7 +3,7 @@
     "target": "ES2019",
     "moduleResolution": "node",
     "allowJs": true,
-    "noEmit": true,
+    "noEmit": false,
     "strict": true,
     "esModuleInterop": true,
     "jsx": "react"
