@@ -28,10 +28,10 @@ const embedComponent: EmbedComponent = (name, env, config, props, el) => {
     ' (function(n, c, p, t) {' +
     '  var w = window, m = function(e){' +
     '   if (e.detail.name === n && w[n] && w[n].Hydrate) {' +
-    '    w[n].Hydrate(document.querySelector(`div[data-microui-component="' + name + '"] div[data-reactroot]`),c,p,t);' +
+    '    w[n].Hydrate(document.querySelector(`div[data-microui-component="' + name + '"] div`),c,p,t);' +
     '   };' +
     '  };' +
-    '  if (w[config.name]) { m(); } else { w.addEventListener(\'microUILoaded\', m); }' +
+    '  if (w[`' + config.name + '`]) { m(); } else { w.addEventListener(\'microUILoaded\', m); }' +
     '  var d = document.getElementById(`' + config.name + 'Library`);' +
     '  if (d === null || d.length === 0) {' +
     '   var tag = document.createElement(\'script\');' +
