@@ -46,6 +46,7 @@ const handleLambdaStrap: HandleLambdaStrap = (name, component, logger, env, conf
     };
   } catch (e) {
     // Log the error which the renderer encountered
+    // @TODO should the error generator be a callback that can be provided to allow better customisation?
     logger.error({ type: 'COMPONENT_RENDER_ERROR', component: name, message: e.message, props });
     // Return a simple error message to the client
     // @TODO should this contain more information?

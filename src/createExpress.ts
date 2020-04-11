@@ -41,9 +41,9 @@ const createExpress: CreateExpress = ({ config, profile = 'local', logger = cons
     // Straps a component into the SSR api
     const strap: CreateExpressStrap = (name, component) => {
       // Handle a GET request to fetch a component
-      api.get(`/${name}`, handleExpressStrap(name, component, env, _config, 'GET'));
+      api.get(`/${name}`, handleExpressStrap(name, component, logger, env, _config, 'GET'));
       // Handle a POST request to fetch a component
-      api.post(`/${name}`, handleExpressStrap(name, component, env, _config, 'POST'));
+      api.post(`/${name}`, handleExpressStrap(name, component, logger, env, _config, 'POST'));
     };
     // Boots up the server
     const boot: CreateExpressBoot = () => {

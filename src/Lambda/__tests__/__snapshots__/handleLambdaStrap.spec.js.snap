@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lambda/handleLambdaStrap can correctly out a server side rendered component with GET variables 1`] = `
+Object {
+  "body": "<div data-microui-library=\\"exampleMicroUI\\" data-microui-component=\\"ExampleComponent\\"><div data-reactroot=\\"\\">John Cater</div></div><script type=\\"application/javascript\\"> (function(n, c, p, t) {  var w = window, m = function(e){   if (e.detail.name === n && w[n] && w[n].Hydrate) {    w[n].Hydrate(document.querySelector(\`div[data-microui-component=\\"ExampleComponent\\"] div\`),c,p,t);   };  };  if (w[\`exampleMicroUI\`]) { m(); } else { w.addEventListener('microUILoaded', m); }  var d = document.getElementById(\`exampleMicroUILibrary\`);  if (d === null || d.length === 0) {   var tag = document.createElement('script');   tag.id = \`exampleMicroUILibrary\`;   tag.src = \`http://localhost:9000/bootstrap.js\`;   document.body.appendChild(tag);  } })('exampleMicroUI', 'ExampleComponent', {\\"name\\":\\"John Cater\\",\\"apiUrl\\":\\"http://localhost:9000\\",\\"apiPath\\":\\"/api/v1\\",\\"assetUrl\\":\\"http://localhost:9000\\",\\"assetTarget\\":\\"umd\\"}, {});</script>",
+  "headers": Object {
+    "cache-control": "private, no-cache, no-store, must-revalidate",
+    "content-type": "text/html",
+    "expires": "-1",
+    "pragma": "no-cache",
+  },
+  "statusCode": 200,
+}
+`;
+
+exports[`Lambda/handleLambdaStrap can correctly out a server side rendered component with POST variables 1`] = `
+Object {
+  "body": "<div data-microui-library=\\"exampleMicroUI\\" data-microui-component=\\"ExampleComponent\\"><div data-reactroot=\\"\\">John Cater</div></div><script type=\\"application/javascript\\"> (function(n, c, p, t) {  var w = window, m = function(e){   if (e.detail.name === n && w[n] && w[n].Hydrate) {    w[n].Hydrate(document.querySelector(\`div[data-microui-component=\\"ExampleComponent\\"] div\`),c,p,t);   };  };  if (w[\`exampleMicroUI\`]) { m(); } else { w.addEventListener('microUILoaded', m); }  var d = document.getElementById(\`exampleMicroUILibrary\`);  if (d === null || d.length === 0) {   var tag = document.createElement('script');   tag.id = \`exampleMicroUILibrary\`;   tag.src = \`http://localhost:9000/bootstrap.js\`;   document.body.appendChild(tag);  } })('exampleMicroUI', 'ExampleComponent', {\\"name\\":\\"John Cater\\",\\"apiUrl\\":\\"http://localhost:9000\\",\\"apiPath\\":\\"/api/v1\\",\\"assetUrl\\":\\"http://localhost:9000\\",\\"assetTarget\\":\\"umd\\"}, {});</script>",
+  "headers": Object {
+    "cache-control": "private, no-cache, no-store, must-revalidate",
+    "content-type": "text/html",
+    "expires": "-1",
+    "pragma": "no-cache",
+  },
+  "statusCode": 200,
+}
+`;
