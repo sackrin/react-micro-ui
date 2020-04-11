@@ -22,6 +22,9 @@ const handleLambdaStrap: HandleLambdaStrap = (name, component, logger, env, conf
   event,
   context,
 ) => {
+  // This is needed to stop issues with window and document throwing errors in SSR
+  (global as any).window = {};
+  (global as any).document = {};
   // Extract and construct the component props from the provided POST and GET variables
   const { queryStringParameters, body } = event;
   const httpQuery = !queryStringParameters ? {} : queryStringParameters;

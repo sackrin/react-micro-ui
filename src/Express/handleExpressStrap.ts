@@ -19,6 +19,9 @@ type HandleExpressStrap = (
 const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-dom', 'server'));
 
 const handleExpressStrap: HandleExpressStrap = (name, component, logger, env, config, method) => async (req, res) => {
+  // This is needed to stop issues with window and document throwing errors in SSR
+  (global as any).window = {};
+  (global as any).document = {};
   // Extract and construct the component props from the provided POST and GET variables
   const httpQuery = !req.query ? {} : req.query;
   const httpBody = !req.body ? {} : req.body;
