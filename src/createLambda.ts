@@ -35,9 +35,9 @@ const createLambda: CreateLambda = (event, context, { config, profile = 'local',
     // Straps a component into the SSR api
     const strap: CreateLambdaStrap = (name, component) => {
       // Handle a GET request to fetch a component
-      routes.push([`/${name}`, 'GET', handleLambdaStrap(name, component, env, _config, 'GET')]);
+      routes.push([`/${name}`, 'GET', handleLambdaStrap(name, component, logger, env, _config, 'GET')]);
       // Handle a POST request to fetch a component
-      routes.push([`/${name}`, 'POST', handleLambdaStrap(name, component, env, _config, 'POST')]);
+      routes.push([`/${name}`, 'POST', handleLambdaStrap(name, component, logger, env, _config, 'POST')]);
     };
     // Boots and executes the lambda server
     const boot: CreateLambdaBoot = async (event, context) => {

@@ -14,7 +14,7 @@ const mockEvent = (req, res) => ({
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
   },
   body: req.body ? JSON.stringify(req.body) : null,
-  queryStringParameters: req.params || null,
+  queryStringParameters: req.query || null,
   requestContext: {
     http: {
       method: req.method,
