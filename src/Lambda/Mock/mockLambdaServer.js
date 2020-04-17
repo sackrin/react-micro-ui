@@ -1,4 +1,6 @@
 import express, { json } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
 import useAsLambda from './useAsLambda';
 
 const mockLambdaServer = handler => {
@@ -6,6 +8,8 @@ const mockLambdaServer = handler => {
   const server = express();
   // Setting up middlewares
   server.use(json());
+  server.use(helmet());
+  server.use(cors({ origin: '*' }));
   // Serve static assets
   server.use(express.static('./.microui'));
   // Add the use lambda polyfill
