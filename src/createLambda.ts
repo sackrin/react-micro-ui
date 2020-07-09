@@ -2,11 +2,12 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import defaultConfig from './microui.default.config';
 import { handleLambdaNotFound, handleLambdaBootstrap, handleLambdaStrap } from './Lambda';
-import type { CreateLambda } from "./Types/CreateLambda";
-import type { LambdaRoute } from "./Types/LambdaRoute";
-import type { CreateLambdaStrap } from "./Types/CreateLambdaStrap";
-import type { CreateLambdaBoot } from "./Types/CreateLambdaBoot";
-import type { CreateLambdaRoute } from "./Types/CreateLambdaRoute"
+import type { CreateLambda } from './Types/CreateLambda';
+import type { LambdaRoute } from './Types/LambdaRoute';
+import type { CreateLambdaStrap } from './Types/CreateLambdaStrap';
+import type { CreateLambdaBoot } from './Types/CreateLambdaBoot';
+import type { CreateLambdaRoute } from './Types/CreateLambdaRoute';
+import { LambdaResponse } from './Types/LambdaResponse';
 
 const createLambda: CreateLambda = (event, context, { config, profile = 'local', logger = console }) => {
   // Get the combined config
@@ -21,12 +22,28 @@ const createLambda: CreateLambda = (event, context, { config, profile = 'local',
   process.env = { ...process.env, ...apiEnv };
   // Where we will store the lambda routes
   const routes: LambdaRoute[] = [];
+  const _cors = env.api?.cors || config.api.cors;
+  const corsHeaders: { [key: string]: string } = {};
+  if (_cors) {
+    if (_cors.origin) {
+      corsHeaders['Access-Control-Allow-Origin'] = _cors.origin;
+    }
+    if (_cors.methods) {
+      corsHeaders['Access-Control-Allow-Methods'] = _cors.methods;
+    }
+    if (_cors.headers) {
+      corsHeaders['Access-Control-Allow-Headers'] = _cors.headers;
+    }
+    if (_cors.maxAge) {
+      corsHeaders['Access-Control-Max-Age'] = _cors.maxAge;
+    }
+  }
   // Attempt to start the express server
   try {
     // Saying hello
     logger.info(_messages.START_UP);
     // Hydrate and output the bootstrapper script
-    routes.push(['/bootstrap.js', 'GET', handleLambdaBootstrap(env, _config)]);
+    routes.push(['/bootstrap.js', 'GET', handleLambdaBootstrap(env, _config, corsHeaders)]);
     // Adds a route to a router of sorts
     const route: CreateLambdaRoute = (path, method, handler) => {
       // Push into the route queue
@@ -35,9 +52,9 @@ const createLambda: CreateLambda = (event, context, { config, profile = 'local',
     // Straps a component into the SSR api
     const strap: CreateLambdaStrap = (name, component) => {
       // Handle a GET request to fetch a component
-      routes.push([`/${name}`, 'GET', handleLambdaStrap(name, component, logger, env, _config, 'GET')]);
+      routes.push([`/${name}`, 'GET', handleLambdaStrap(name, component, logger, env, _config, 'GET', corsHeaders)]);
       // Handle a POST request to fetch a component
-      routes.push([`/${name}`, 'POST', handleLambdaStrap(name, component, logger, env, _config, 'POST')]);
+      routes.push([`/${name}`, 'POST', handleLambdaStrap(name, component, logger, env, _config, 'POST', corsHeaders)]);
     };
     // Boots and executes the lambda server
     const boot: CreateLambdaBoot = async (event, context) => {
@@ -50,11 +67,26 @@ const createLambda: CreateLambda = (event, context, { config, profile = 'local',
       // Search for and return the relevant handler
       // @TODO would be cool to use a regex in the future?
       // @TODO yes a find would probably be better
-      const route = routes.find(
-        ([_path, _method, _handler]) => (_path === path && method === _method)
-      );
+      const route = routes.find(([_path, _method, _handler]) => _path === path && method === _method);
       // Retrieve the payload
-      return route ? route[2](event, context) : handleLambdaNotFound(event, context);
+      if (route) {
+        return new Promise<LambdaResponse>((resolve, reject) => {
+          // Wait for the route to gather a response then inject CORS headers.
+          route[2](event, context)
+            .then((response) => {
+              response.headers = {
+                ...corsHeaders,
+                ...response.headers,
+              };
+              resolve(response);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      } else {
+        return handleLambdaNotFound(event, context, corsHeaders);
+      }
     };
     // Returns the instance of the server, the strapper the booter, the config and the logger
     return { route, strap, boot, env, config: _config, logger };
@@ -66,6 +98,7 @@ const createLambda: CreateLambda = (event, context, { config, profile = 'local',
     // Trigger the callback
     return {
       headers: {
+        ...corsHeaders,
         'content-type': 'application/json',
       },
       statusCode: 500,

@@ -12,13 +12,14 @@ type HandleLambdaStrap = (
   env: MicroUiConfigProfileEnv,
   config: MicroUiConfig,
   method: string,
+  corsHeaders: { [key: string]: string },
 ) => (event: any, context: any) => Promise<LambdaResponse>;
 
 // Direct Import React
 // We have to do it this way to permit SSR react + hooks
 const ReactDOMServer = require(path.join(process.cwd(), 'node_modules', 'react-dom', 'server'));
 
-const handleLambdaStrap: HandleLambdaStrap = (name, component, logger, env, config, method) => async (
+const handleLambdaStrap: HandleLambdaStrap = (name, component, logger, env, config, method, corsHeaders = {}) => async (
   event,
   context,
 ) => {
@@ -39,6 +40,7 @@ const handleLambdaStrap: HandleLambdaStrap = (name, component, logger, env, conf
     // Return the static HTML to the client
     return {
       headers: {
+        ...corsHeaders,
         'content-type': 'text/html',
         expires: '-1',
         'cache-control': 'private, no-cache, no-store, must-revalidate',
@@ -56,6 +58,7 @@ const handleLambdaStrap: HandleLambdaStrap = (name, component, logger, env, conf
     // @TODO should this be within the config?
     return {
       headers: {
+        ...corsHeaders,
         'content-type': 'text/html',
         expires: '-1',
         'cache-control': 'private, no-cache, no-store, must-revalidate',

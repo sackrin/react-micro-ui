@@ -7,9 +7,10 @@ import type { LambdaResponse } from "../Types/LambdaResponse";
 type HandleLambdaBootstrap = (
   env: MicroUiConfigProfileEnv,
   config: MicroUiConfig,
+  corsHeaders: { [key: string]: string },
 ) => (event: any, context: any) => Promise<LambdaResponse>;
 
-const handleLambdaBootstrap: HandleLambdaBootstrap = ( env, { name, assets, api, manifest }) => async (event, context) => {
+const handleLambdaBootstrap: HandleLambdaBootstrap = ( env, { name, assets, api, manifest }, corsHeaders = {}) => async (event, context) => {
   // Retrieve the manifest file contents
   let manifestData = fs.readFileSync(manifest.filepath, 'utf8');
   // Determine the correct api and asset values based on
@@ -38,6 +39,7 @@ const handleLambdaBootstrap: HandleLambdaBootstrap = ( env, { name, assets, api,
   // This is the worst file to have cached, ensure this file does not cache
   return {
     headers: {
+      ...corsHeaders,
       'content-type': 'application/javascript',
       'expires': '-1',
       'cache-control': 'private, no-cache, no-store, must-revalidate',
