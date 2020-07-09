@@ -20,11 +20,28 @@ describe('Lambda/handleLambdaBootstrap', () => {
       headers: {
         'cache-control': 'private, no-cache, no-store, must-revalidate',
         'content-type': 'application/javascript',
-        'expires': '-1',
-        'pragma': 'no-cache',
+        expires: '-1',
+        pragma: 'no-cache',
       },
-      body: 'Example text const manifest = {"main":"main.js"} and const env = {"name":"exampleMicroUI","apiUrl":"http://localhost:9000","apiPath":"/api/v1","assetUrl":"http://localhost:9000","assetTarget":"umd","assetEntry":"main.js"} instead of bootstrap.js',
+      body:
+        'Example text const manifest = {"main":"main.js"} and const env = {"name":"exampleMicroUI","apiUrl":"http://localhost:9000","apiPath":"/api/v1","assetUrl":"http://localhost:9000","assetTarget":"umd","assetEntry":"main.js"} instead of bootstrap.js',
       statusCode: 200,
     });
+  });
+
+  it('can pass the corsHeaders object through to the response', async () => {
+    const corsHeaders = {
+      testHeader: 'value',
+      testHeader2: 'value2',
+    };
+    const fileSync = sinon.stub();
+    fileSync.onFirstCall().returns(JSON.stringify({ main: 'main.js' }));
+    fileSync
+      .onSecondCall()
+      .returns('Example text const manifest = __MANIFEST__ and const env = __ENV__ instead of bootstrap.js');
+    fs.readFileSync = fileSync;
+    const payload = await handleLambdaBootstrap({ testEnvVar: true }, config, corsHeaders)(mockEvent, mockContext);
+    expect(payload.headers.testHeader).to.equal('value');
+    expect(payload.headers.testHeader2).to.equal('value2');
   });
 });
