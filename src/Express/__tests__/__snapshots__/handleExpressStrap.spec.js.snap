@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Express/handleExpressStrap can correctly out a server side rendered component with GET variables 1`] = `[Function]`;
-
-exports[`Express/handleExpressStrap can correctly out a server side rendered component with POST variables 1`] = `[Function]`;
