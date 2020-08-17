@@ -1,6 +1,6 @@
 {
   "name": "@sackrin/react-micro-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple to use framework for creating react based micro frontend applications",
   "main": "lib/index.js",
   "repository": {
