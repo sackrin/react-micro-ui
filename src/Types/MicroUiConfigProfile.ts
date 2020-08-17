@@ -10,6 +10,7 @@ export type MicroUiConfigProfile = {
     path?: string,
     port?: number;
     cors?: { [key: string]: string };
+    prefix?: string;
     messages?: {
       START_UP?: string;
       STARTED_UP?: string;
