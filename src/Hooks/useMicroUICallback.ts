@@ -6,7 +6,7 @@ type UseMicroUICallback = (
   callback: (...args: any[]) => any,
   deps: any,
   path: string,
-  prefix?: string
+  prefix?: string,
 ) => (...args: any[]) => any;
 
 const useMicroUICallback: UseMicroUICallback = (callback, deps, path, prefix = 'MICROUI') => {
