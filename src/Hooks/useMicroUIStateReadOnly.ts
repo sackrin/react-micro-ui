@@ -11,7 +11,7 @@ const useMicroUIStateReadOnly: UseMicroUIStateReadOnly = (defaultState, path, pr
   windowStash.subscribe((value: any) => {
     setState(value);
   });
-  return [state];
+  return [state || windowStash.last];
 };
 
 export default useMicroUIStateReadOnly;

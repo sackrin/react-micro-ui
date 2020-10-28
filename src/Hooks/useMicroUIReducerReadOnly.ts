@@ -16,7 +16,7 @@ const useMicroUIReducerReadOnly: UseMicroUIReducerReadOnly = (reducer, defaultSt
   windowStash.subscribe((action: any) => {
     dispatch(action);
   });
-  return [state];
+  return [state || windowStash.last];
 };
 
 export default useMicroUIReducerReadOnly;
