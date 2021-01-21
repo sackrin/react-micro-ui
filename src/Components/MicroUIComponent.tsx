@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useMicroUI } from '../Hooks';
 import { getMicroUiEnv } from '../Helpers';
+import filterNonReactProps from '../Helpers/filterNonReactProps';
 
 import type { MicroUIProps } from "./Types/MicroUIProps";
 
@@ -25,7 +26,7 @@ export const MicroUIComponent = (props: MicroUIProps) => {
   }
   // Return out a div to embed within
   // @TODO make this able to be passed in
-  return <div ref={el} {..._props} />;
+  return <div ref={el} {...filterNonReactProps(_props)} />;
 };
 
 export default MicroUIComponent;
